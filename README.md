@@ -72,9 +72,18 @@ some complicated contig names.
 #load funannotate
 module load funannotate
 
-funannotate sort -i SRRXXXXXX-contigs.v2.fa o SRRXXXXXX.sort.fa
+funannotate sort -i SRRXXXXXX-contigs.v2.fa o SRRXXXXXX.sort.fa --minlen500
 
 ```
+
+
+# LQ 1
+Inspect the input (`-i`) and output (`-o`) files. 
+
+What was the name of the first contig in the input file?
+
+What is the new name of the first contig in the output file?
+
 
 
 ### Step 2a: Load repeatmasker
