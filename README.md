@@ -72,7 +72,8 @@ some complicated contig names.
 #load funannotate
 module load funannotate
 
-funannotate sort SRXXXXXXX-contigs.v2.fa
+funannotate sort -i SRRXXXXXX-contigs.v2.fa o SRRXXXXXX.sort.fa
+
 ```
 
 
