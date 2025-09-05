@@ -86,40 +86,21 @@ What is the new name of the first contig in the output file?
 
 
 
-### Step 2a: Load repeatmasker
+### Step 2b: RepeatMask the assembly
 
-We will be using a software called repeatmasker which is already installed on the cluster. 
+We will also use funannotate to mask the genome. 
 
-```bash
-module load repeatmasker
-```
-
-Now we need to make sure that we have the right database
-
-```
-cd .
-cp -r /projects/class/binf3101_001/.RepeatMaskerCache/ .
-cd lab_4
-```
-
-### Step 2b: Run repeatmasker
-
-We want to tell repeatmasker what type of species we are using so that it can look for the right type of repeats
+If you have closed the terminal you will need to reload funannotate `module load funannotate`
 
 ```bash
-RepeatMasker -species saccharomycotina SRRXXXXXX-contigs.v2.fa
+funannotate mask -i SRRXXXXXX.sort.fa -o SRRXXXXXX.masked.fa
+
 ```
 
-This will run for a while. Answer the question below while it is running
 
-# LQ 1a
+# LQ 1
 
-**Repeatmasker looks for insertion elements from a common laboratory bacteria. What is this bacteria?**
-
-# LQ 1b
-
-**Check out the link below and report what type of transposable elements you suspect are found in our Saccharomycotina yeasts.**
-https://www.nature.com/scitable/topicpage/transposons-the-jumping-genes-518/ 
+What percent of your genome was masked? 
 
 
 &nbsp;
