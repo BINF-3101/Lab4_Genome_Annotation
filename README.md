@@ -29,15 +29,11 @@
 
 ## Introduction
 
-In the lab today we will be annotating our genomes. Annotation is the process of finding the genes. The software we will run, called BRAKER, attempts to identify the beginning and end of genes. It will also identify exons and introns within the gene. 
+In the lab today we will be annotating our genomes. Annotation is the process of finding the genes. 
 
-![image](https://github.com/BINF-3101/Lab4_Genome_Annotation/assets/47755288/77b896a0-47e3-470a-a507-b74b94a66093)
+We will be using an excellent software called FunAnnotate 
 
-Genes within genomes can be distributed in very different ways. Some genomes have lots of genes that are closely packed. The human genome, conversely, has long stretches of DNA that do not contain genes. 
-
-Yeast genomes are typically compact and the genes contain few introns. We need to **train our model** to know what type of genome we have. We will use a database of known yeast proteins to train our model
-
-
+To read more about this software visit https://github.com/nextgenusfs/funannotate 
 
 ## Step 1: Set up your Lab 4 Folder
 
@@ -57,9 +53,28 @@ As a reminder the ```.``` command means "here". So ```lab_4/.``` means "here in 
 
 
 
-## Step 2: Mask our genome
+## Step 2: Prep our genome
 
-Our genome likely contains highly repetitive regions. We want to hide or mask those regions. This helps the genome annotation software ignore these repeated regions
+
+### Step 2a: Rename and sort the contigs. 
+
+Our genome likely contains highly repetitive regions. We want to hide or mask those regions. This helps the genome annotation software ignore these repeated regions. We will use the `funannotate sort` command. 
+
+From the Funannotate documentation
+
+```bash
+This script sorts the input contigs by size (longest->shortest) and then relabels
+the contigs with a simple name (e.g. scaffold_1).  Augustus can have problems with
+some complicated contig names.
+```
+
+```bash
+#load funannotate
+module load funannotate
+
+funannotate sort SRXXXXXXX-contigs.v2.fa
+```
+
 
 ### Step 2a: Load repeatmasker
 
