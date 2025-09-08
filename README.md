@@ -83,7 +83,11 @@ funannotate sort -i SRRXXXXXX-contigs.v2.fa o SRRXXXXXX.sort.fa --minlen500
 # LQ 1
 Inspect the input (`-i`) and output (`-o`) files. 
 
+## LQ 1a
+
 What was the name of the first contig in the input file?
+
+## LQ 1b
 
 What is the new name of the first contig in the output file?
 
