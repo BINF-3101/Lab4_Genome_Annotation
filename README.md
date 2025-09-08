@@ -231,7 +231,7 @@ What percent of the BUSCO genes are complete?
 
 ## LQ 3b 
 
-We are comparing our yeast genome to all of Dikarya (a subkingdom of Fungi). Therefore, we would expect a great genome annotation to have a BUSCO completeness score of >90% 
+We are comparing our yeast genome to all of Dikarya (a subkingdom of Fungi). Therefore, we would expect a great genome annotation to have a BUSCO completeness score of >90%. Anything above 75% is acceptable.
 
 How well was your genome annotated if we assume all the missing BUSCOs are missing because of technical issues?
 - Very well annotated
