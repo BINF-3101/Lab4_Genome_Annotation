@@ -52,6 +52,8 @@ cp lab_3/SRRXXXXXX-contigs.v2.fa lab_4/.
 As a reminder the ```.``` command means "here". So ```lab_4/.``` means "here in the lab 4 folder. 
 
 
+&nbsp;
+&nbsp;
 
 ## Step 2: Prep our genome
 
@@ -97,47 +99,29 @@ funannotate mask -i SRRXXXXXX.sort.fa -o SRRXXXXXX.masked.fa
 
 ```
 
+Our new masked genome from this pipeline will be **SRRXXXXXX.masked.fa**
 
-# LQ 1
 
-What percent of your genome was masked? 
+The results of the masking will be in a folder called `mask_logs` and you should see a file in this folder that starts with `funannotate.mask`
 
+Inspect that file and answer the questions below
+
+# LQ 2a
+
+What percent of your genome was masked due to repeats?
+
+# LQ 2b
+
+What is an example of a repeat that is commonly found in genomes? You will need to search the internet for this answer.
 
 &nbsp;
 &nbsp;
 
-Our new masked genome from this pipeline will be **SRRXXXXXX-contigs.v2.masked**
+## Step 3 - Annotate the genome with Funannotate
 
-The results from our masking will be in the file **SRRXXXXXX-contigs.v2.fa.out**
+### Step 3a - Setup GeneMark
 
-Take a look at your output file (SRRXXXXXX-contigs.v2.fa.out) using head, cat or less command
-
-# LQ 2
-
-**How many "simple repeats" were identified in your genome?**
-
-
-## Step 3 - Setup for BRAKER
-
-Now we are going to get set up to run BRAKER. There are several **key steps** you need to complete before running the slurm script. **You will have to do these each time you want to run BRAKER**
-
-### Step 3b - Clear your console and load modules
-
-We want to unload everything we loaded before and load several packages before starting. 
-
-To clear your terminal you can close it and open a new one or use the module purge command
-
-```bash
-#clear all loaded modules
-module purge
-
-#load braker and other dependencies
-module load braker/3.0.7
-```
-
-### Step 3b - Setup GeneMark
-
-BRAKER calls a program called genemark. We need to tell genemark where to look for its configuration files
+Funannotate calls a program called genemark. We need to tell genemark where to look for its configuration files
 
 ```bash
 #go to your home directory
@@ -146,128 +130,133 @@ cd
 cp /projects/class/binf3101_001/.gm_key $HOME/.gm_key
 ```
 
-### Step 3c - Setup Augustus
+### Step 3b - Set up the slurm script
 
-BRAKER calls another program called AUGUSTUS that requires an input database. We need to create this database
+By submitting this slurm script, we will be sending these commands to the HPC to run
 
-```bash
-#go to your home directory
-cd
-
-#enter this command exactly
-cp -ar $AUGUSTUS/config $HOME/augustus_config
-```
-
-
-## Step 4 - Setup BRAKER and run 
-
-**THIS STEP WILL TAKE A LONG TIME** Braker is _not_ a quick program. This process will take **AT LEAST 10 HOURS!**. The larger your genome the longer it will take.
-
-### Step 4a - Copy slurm script
-
-Top copy the slurm script into your lab_4 directory. 
+To copy the slurm script to your current directory use
 
 ```bash
-
-cd lab_4
-
-cp /projects/class/binf3101_001/braker.slurm .
+cp /projects/class/binf3101_001/lab_4/funannotate.slurm .
 ```
 
+Below is what is in the funannotate.slurm script. If you use `cat funannotate.slurm` you will see the following commands. 
 
-### Step 4b - Edit the slurm script
+```
+export GENEMARK_PATH="/apps/pkg/anaconda3/apps/genemark-4.72/gmes_linux_64/"
 
-There is one section of the script you need to edit
+module funannotate
 
-![image]https://github.com/user-attachments/assets/c7a3bd20-b4a1-4664-9c36-901a077e429d)
+funannotate predict -i SRRXXXXXXX.masked.fa --species "SRRXXXXXXX" -o SRRXXXXXXX --cpus 4
+```
 
+You will need to edit the file to replace SRRXXXXXXX with your number
 
-In the line where it says SRR="1234556" you should change it to your SRR number. 
+### Step 3c - Run the script
 
+Once the script is edited, you will submit the job to run on the cluster. 
 
-### Step 4c - Submit the slurm script
-
-Before submitting your braker script make sure you have the following files in your directory 
-
-- SRR12345-contigs.v2.fa.masked
-- braker.slurm
-
-If those two items are in your directory you can submit the script
+This will take **THREE TO FOUR HOURS**
 
 ```bash
-sbatch braker.slurm
+sbatch funannotate.slurm
 ```
 
-### Step 4d -  Check on your annotation
-
-This will take a long time to run, so let's look at what's happening
-
-
-**Check to see if the program is running**
+You can check to see if your job is running using the `squeue -u` command 
 
 ```bash
 squeue -u username
 ```
 
-![image](https://github.com/BINF-3101/Lab4_Genome_Annotation/assets/47755288/ea7927d8-c920-4d5e-ab6f-757932cae2f8)
+&nbsp;
+&nbsp;
 
-You should see your job running with the amount of time it's been running. 
+## Step 4 - examine the results 
+
+You will see a new folder called `SRRXXXXXXX` with your SRR number. 
+
+Within that folder you will find three folders
+- `logfiles` : the logs for the programs run
+- `predict_misc` : other miscellaneous predictions
+- `predict_results` : the results for our genome annotation
+
+You will examine several of the files from our output to answer the questions below
 
 
-**Look at the log file**
+### Step 4a - BUSCO results
 
-The braker program will create a new folder called **braker**
+One of the major questions we want to know is, how well did our annotation method do in finding genes? 
 
-**_NOTE!_** If you need to **re-run braker** you will need to delete this folder. Ask our TA our myself if you run into this issue. 
+One way we can ask that question is to look to see if we find genes we expect to find in every organism. 
 
-To look at your log file 
+One way of doing this is by looking at BUSCO or Benchmarking Universal Single Copy Orthologs.
+
+
+BUSCO genes have the following properties
+
+- **Single-Copy**: BUSCO genes are present as one copy in the genome, and expected to be the same in most species within a taxonomic group. 
+- **Orthologs**: Genes that share a common ancestral gene in different species. 
+- **Conserved across taxa**: The selection of single-copy orthologs used in BUSCO datasets are highly conserved across a wide range of species. 
+
+Running a BUSCO analysis will tell us about the number of BUSCO genes that are
+- **Complete** - found in the genome assembly
+- **Duplicated** - found in more than one copy in the genome
+- **Framented** - only part of the gene was found
+- **Missing** - the gene is absent due to technical or biological resons.
+
+To find the BUSCO results you will need to navigate to the file `short_summary_srrXXXXXX.txt` 
+
+The path to this file is `predict_misc/busco/runsrrXXXXXXX/1111111/short_summary_srrXXXXX.txt`
+You will need to replace the `XXXXX` with your SRR number and the `1111111` will be a random set of numbers
+
+# LQ 3a
+
+What percent of the BUSCO genes are complete? 
+
+# LQ 3b 
+
+We are comparing our yeast genome to all of Dikarya (a subkingdom of Fungi). Therefore, we would expect a great genome annotation to have a BUSCO completeness score of >90% 
+
+How well was your genome annotated if we assume all the missing BUSCOs are missing because of technical issues?
+- Very well annotated
+- Adequately annotated
+- Poorly annotated
+
+&nbsp;
+&nbsp;
+
+### Step 4b - Analyze annotation results
+
+We will now look at a file called `SRRXXXXXXX.stats.json` in the `predict_results` folder. 
+
+This file is in a special machine-readable format called `JSON`. But you can view the information using `cat`
+
+# LQ 4
+Report the following statistics for your genome annotation
+- Number of protein-coding genes
+- Number of tRNA genes
+- Average length of the genes
+- Number of transcripts with at least one intron
+- Average length of genes in amino acids
+
+### Step 5 - Copy over your annotation to the shared folder
+
+To save a copy of your genome annotation, you will make a copy in our shared class space. We will copy over the nucleotide sequences
+
+This file is `SRRXXXXXXX.cds-transcripts.fa` and is located in the `predict_results` folder. 
+
+Copy this using the command below
 
 ```bash
-head braker/braker.log
+
+cp SRRXXXXXXX.cds-transcripts.fa /projects/class/binf3101_001/genome_annotations/.
+
 ```
 
-This is where braker will report its progress. 
-
-# LQ 3 
-
-After your run is complete, what does the **end of your log file look like?** You can upload a screenshot, copy the end of the file, or send the entire file. 
-
-If your assembly has _not been completed_ by the lab due date, upload the last lines in your file. 
 
 
-## Step 5 - Preparing for the next lab
-
-Our analyses will run for a long time. To prepare us for next lab let's answer some questions about our output files. 
-
-
-### Step 5a - Braker output files
-
-The version of braker we are using only outputs gff or gff3 files. We have it set to generate our gff3 files and it will be named **"braker.gff3**
-
-Take a look at this example of gff3 format https://learn.gencore.bio.nyu.edu/ngs-file-formats/gff3-format/ 
-
-# LQ 4 
-How many required fields are there in gff3 format?
-
-# LQ 5 
-What is the default or blank value used in GFF3 format?
-
-# LQ 6
-We will need to extract DNA and amino acid sequences from our genome using our gff3 file. We will be using this program: getfasta
-Look at the documentation for getfasta https://bedtools.readthedocs.io/en/latest/content/tools/getfasta.html
-
-Write and report the command you would use to extract all our DNA sequences from the genome. 
-
-
-
-
-
-
-
-
-
-
-
+# LQ 5
+Confirm you copied your file over
 
 
 
