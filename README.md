@@ -6,26 +6,26 @@
 
 [Step 1](#step-1-set-up-your-lab-4-folder)
 
-[Step 2](#step-2-mask-our-genome)
+[Step 2](#step-2-prep-your-genome)
 
 [Lab Question 1](#lq-1)
 
 [Lab Question 2](#lq-2)
 
-[Step 3](#step-3---setup-for-braker)
+[Step 3](#step-3---annotate-the-genome-with-funannotate)
 
-[Step 4](#step-4---setup-braker-and-run)
+[Step 4](#step-4---examine-the-results)
 
 [Lab Quesiton 3](#lq-3)
 
-[Step 5](#step-5---preparing-for-the-next-lab)
-
 [Lab Quesiton 4](#lq-4)
+
+[Step 5](#step-3---copy-over-your-annotation-to-the-shared-folder)
 
 [Lab Quesiton 5](#lq-5)
 
-[Lab Quesiton 6](#lq-6)
-
+&nbsp;
+&nbsp;
 
 ## Introduction
 
@@ -55,7 +55,7 @@ As a reminder the ```.``` command means "here". So ```lab_4/.``` means "here in 
 &nbsp;
 &nbsp;
 
-## Step 2: Prep our genome
+## Step 2: Prep your genome
 
 
 ### Step 2a: Rename and sort the contigs. 
@@ -77,7 +77,8 @@ module load funannotate
 funannotate sort -i SRRXXXXXX-contigs.v2.fa o SRRXXXXXX.sort.fa --minlen500
 
 ```
-
+&nbsp;
+&nbsp;
 
 # LQ 1
 Inspect the input (`-i`) and output (`-o`) files. 
@@ -86,7 +87,8 @@ What was the name of the first contig in the input file?
 
 What is the new name of the first contig in the output file?
 
-
+&nbsp;
+&nbsp;
 
 ### Step 2b: RepeatMask the assembly
 
@@ -106,11 +108,15 @@ The results of the masking will be in a folder called `mask_logs` and you should
 
 Inspect that file and answer the questions below
 
-# LQ 2a
+&nbsp;
+&nbsp;
+
+# LQ 2
+## LQ 2a
 
 What percent of your genome was masked due to repeats?
 
-# LQ 2b
+## LQ 2b
 
 What is an example of a repeat that is commonly found in genomes? You will need to search the internet for this answer.
 
@@ -129,6 +135,7 @@ cd
 #enter this command exactly
 cp /projects/class/binf3101_001/.gm_key $HOME/.gm_key
 ```
+&nbsp;
 
 ### Step 3b - Set up the slurm script
 
@@ -151,6 +158,8 @@ funannotate predict -i SRRXXXXXXX.masked.fa --species "SRRXXXXXXX" -o SRRXXXXXXX
 ```
 
 You will need to edit the file to replace SRRXXXXXXX with your number
+
+&nbsp;
 
 ### Step 3c - Run the script
 
@@ -182,6 +191,7 @@ Within that folder you will find three folders
 
 You will examine several of the files from our output to answer the questions below
 
+&nbsp;
 
 ### Step 4a - BUSCO results
 
@@ -209,11 +219,13 @@ To find the BUSCO results you will need to navigate to the file `short_summary_s
 The path to this file is `predict_misc/busco/runsrrXXXXXXX/1111111/short_summary_srrXXXXX.txt`
 You will need to replace the `XXXXX` with your SRR number and the `1111111` will be a random set of numbers
 
-# LQ 3a
+&nbsp;
+# LQ 3
+## LQ 3a
 
 What percent of the BUSCO genes are complete? 
 
-# LQ 3b 
+## LQ 3b 
 
 We are comparing our yeast genome to all of Dikarya (a subkingdom of Fungi). Therefore, we would expect a great genome annotation to have a BUSCO completeness score of >90% 
 
@@ -231,6 +243,8 @@ We will now look at a file called `SRRXXXXXXX.stats.json` in the `predict_result
 
 This file is in a special machine-readable format called `JSON`. But you can view the information using `cat`
 
+&nbsp;
+
 # LQ 4
 Report the following statistics for your genome annotation
 - Number of protein-coding genes
@@ -238,6 +252,8 @@ Report the following statistics for your genome annotation
 - Average length of the genes
 - Number of transcripts with at least one intron
 - Average length of genes in amino acids
+
+&nbsp;
 
 ### Step 5 - Copy over your annotation to the shared folder
 
