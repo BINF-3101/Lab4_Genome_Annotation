@@ -154,12 +154,12 @@ cd lab_4
 cp /projects/class/binf3101_001/lab_4/funannotate.slurm .
 ```
 
-Below is what is in the funannotate.slurm script. If you use `cat funannotate.slurm` you will see the following commands. 
+Below is what is in the funannotate.slurm script. If you use `cat funannotate.slurm` you will see the following commands. _You do not need to run these commands_
 
 ```
 export GENEMARK_PATH="/apps/pkg/anaconda3/apps/genemark-4.72/gmes_linux_64/"
 
-module funannotate
+module load funannotate
 
 funannotate predict -i SRRXXXXXXX.masked.fa --species "SRRXXXXXXX" -o SRRXXXXXXX --cpus 4
 ```
