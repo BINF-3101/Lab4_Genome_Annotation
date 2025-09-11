@@ -108,7 +108,8 @@ funannotate mask -i SRRXXXXXX.sort.fa -o SRRXXXXXX.masked.fa
 Our new masked genome from this pipeline will be **SRRXXXXXX.masked.fa**
 
 
-The results of the masking will be in a folder called `mask_logs` and you should see a file in this folder that starts with `funannotate.mask`
+The results of the masking will be in a file that starts with `funannotate.mask`
+
 
 Inspect that file and answer the questions below
 
@@ -148,6 +149,8 @@ By submitting this slurm script, we will be sending these commands to the HPC to
 To copy the slurm script to your current directory use
 
 ```bash
+#go back into lab 4
+cd lab_4
 cp /projects/class/binf3101_001/lab_4/funannotate.slurm .
 ```
 
