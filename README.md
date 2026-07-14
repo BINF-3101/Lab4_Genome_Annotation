@@ -180,6 +180,8 @@ sbatch funannotate.slurm
 
 You can check to see if your job is running using the `squeue -u` command 
 
+This command may take several hours to run - we will resume next week with results. 
+
 ```bash
 squeue -u username
 ```
